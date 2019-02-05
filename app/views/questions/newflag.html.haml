@@ -1,0 +1,27 @@
+.modal-body-internal
+  #flag-error.alert.alert-danger.large-alert.ahide
+  #flag-success.alert.alert-success.large-alert.ahide
+  .flag-body
+    %textarea.form-control#flagreason{rows: 4, placeholder: t(:why_flag)}
+    .action.text-center
+      %button.default-button#send-now-flag-button
+        =t(:send_now)
+
+:javascript
+  
+  $("#send-now-flag-button").on("click",function(event){
+    modal = $(this).parents('.modal');
+    toggle_loading_button("send-now-flag-button");
+    $("#flag-error").html("").hide();
+    pdata = { "text": $("#flagreason").val() }
+    ajaxRequest("/questions/#{params[:qid]}/flag", "post", pdata)
+    .done(function(response) {
+      if (response.has_error) {
+        $("#flag-error").html(response.message).slideDown("slow");
+      } else {
+        modal.find('.flag-body').html(response.message).slideUp();
+        $("#flag-success").html(response.message).slideDown();
+      }
+      toggle_loading_button("send-now-flag-button");
+    });
+  });

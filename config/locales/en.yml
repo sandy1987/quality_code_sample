@@ -1,0 +1,676 @@
+en:
+  app_name: "Askorty"
+  ask_me_question:
+    question_has_bad_word_html: Your question contains bad word(s), please follow <a href="/static/faqs#f2">guidelines</a> for asking any question.
+    add_more: "Add more"
+    ask_now: "Ask now"
+    ask_to_others: "Did you know? You can pitch this question to 2 more public figures"
+    button_title: "Ask me a question" 
+    char_left: "characters left"
+    error: Too many celebrities! No more than 3 at a time
+    empty: "Question can't be empty"
+    hide_list: "hide"
+    max_length: 120
+    modal_title: "Ask a question"
+    question_placeholder: "Question goes here. Max. 120 characters"
+    success: Success! Your question has been posted. We will send you an e-mail when it gets answered.
+    success_with_alert_html: Success! Your question has been posted. <br /><br /><i>We found you have opted out to receive e-mail notification, that means you will not be notified by e-mail, when this question gets answered. If you want to make change in order to recieve such e-mail, then go to the <a href="%{url}">setting page.</i></a><br /><br />
+    success_social_share_message: Did you know, votes improve your chances of getting an answer. Get more votes now by sharing it with your networks. 
+    only_celebrity_for_question: Questions are for public figures only
+    question_last_character: Your question must end with '?'
+    alread_exists_question_html: 'We already have this question in our system. Go <a href="/cards/%{qid}" target="_blank">here</a> to see the existing question. Or think of a new one.'
+    qlength: Question must be a minimum of %{min} and a maximum of %{max} characters long
+    same_celeb_question_time_window: "Your last question to %{celeb_name} was posted %{last_quest_time} ago. You're only allowed %{no_of_quest} %{quest} per celebrity every %{time_duration} hours"
+    questions_time_window: You can only ask %{no_of_quest} questions every %{time_duration} hours. Your last asked question was posted %{last_quest_time} ago. Come back soon and get askorting again!
+  celebrity_not_found: " isn't in our list."
+  confirmation_link_html: '%{error}. <a type="button", data-toggle= "modal", data-target= "#resentConfirmation">Resend e-mail confirmation</a>'
+  confirmation_notice: "E-mail %{error}"
+  contact_us: Thanks for getting in touch. We'll get back to you ASAP
+  image_uploaded: Success! Image has been updated
+  suggest_a_celebrity: Thanks for your suggestion. Let's hope they become part of the Askorty community so you can ask them interesting questions
+  fill_cform: To contact us, please fill out the form below. Cheers!
+  strip_white_space: Password can't be empty
+  send_email_contact_html: 'Send us e-mail at <a href="mailto:%{email}?Subject=Contact%20mail" target="_top">%{email}</a> or by <a href="#email">filling out the form below</a>'
+  sel_cat: 'Select your profile categories (up to 3):'
+  home: Home
+  contact: Contact us
+  faqs: FAQs
+  prs: Press Releases
+  about: About
+  prpol: Privacy Policy
+  and: and
+  tncon: Terms of Service
+  copyright: "© %{year} Askorty.com. All Rights Reserved."
+  madeinsf_html: 'Crafted With <i class="fa fa-heart"></i> in San Francisco'
+  filter_by_time: "Show by recency"
+  filter_by_popularity: "Show by popularity"
+  sort_by: Sort by
+  ask_now: Ask now!
+  list_qbyme: My questions
+  reqst_byme: My votes
+  cslist: Public figures list and search
+  failed_vid_reason: Check your e-mail for more information
+  failed_trancoding: Oops. Something went wrong with your video upload. Please try again!
+  failed_trancoding_duration: Your upload exceeds the maximum duration of %{num} seconds. Try again
+  default_failed_video_text: It may have happened due to some unknown reason. Please try again
+  myaskedq: My asked questions
+  reqa: My votes
+  request_answer: Vote in
+  myans: My answers
+  qtoans: Questions to be answered
+  mypro: My profile
+  editpro: Edit my profile
+  logout: Logout
+  settings: Settings
+  cancel: Cancel 
+  cancel_request: Vote out
+  chng_pswd: Change your password
+  ok: Ok
+  blog: Blog
+  quest_deleted_success: Success! Question has been deleted
+  ans_deleted_success: Success! Answer has been deleted
+  other: vote
+  others: votes
+  other_gender: other
+  question_region: top question region
+  question_city: top question city
+  question_zipcode: top question zipcode
+  avrg_sentiment: Avg. question sentiment
+  voting_region: top voting region
+  voting_city: top voting city
+  voting_zipcode: top voting zipcode
+  active_gender: most active gender
+  question_by_date: Questions by date
+  question_by_geolocation: Questions by geolocation
+  question_by_zipcode: Questions by zipcode
+  vote_by_date: Votes by date
+  vote_by_geolocation: Votes by geolocation
+  vote_by_zipcode: Votes by zipcode
+  vol_geolocation: '%{type} volume by geolocation'
+  vol_zipcode: '%{type} volume by zipcode'
+  vol_as_chart: '%{type} volume by geolocation - as pie chart'
+  vol_as_table: '%{type} volume in tabular format'
+  not_available: NA
+  filter: filter
+  day: day
+  ima: I am a 
+  unknown_file_format: 'Unknown file type: %{name}'
+  under_processing: Your video is being processed
+  facebook: Share @ Facebook
+  twitter: Share @ Twitter
+  flag: Flag
+  from: from
+  bio_field: 'blurb'
+  bio_name: 'bio'
+  time: Time
+  more_text: more&raquo;
+  comments: Comments
+  asked_by: "asked by - "
+  answerd_by: "Answered by"
+  ago: "%{timing} ago "
+  no_video_support: Your browser does not support HTML5 video
+  like: Like
+  comment: Comment
+  likes: Like(s)
+  comments: Comment(s)
+  popularity: Popularity
+  orderby: 'Order by: '
+  tfirst: Recent first
+  pfirst: Popular first
+  asc: " - ascending"
+  desc: " - descending"
+  write_comment: Type your comment here (max. 500 letters)
+  commnet_has_bad_word: Your comment contains bad word(s). Please re-type.
+  embed_title: Embed this card in a website 
+  empty_field: " can't be empty"
+  empty_login_field: " field can't be blank"
+  empty_url: " url is empty."
+  error_field: field_with_errors
+  flag_title: Report this content
+  whom_ask_today_1: Ask questions to public figures.
+  whom_ask_today_2: Vote for questions to make them popular enough to get video answer.
+  delete: Delete
+  remove: Remove me
+  flwus: Follow us at
+  delete_confirm_quest: Are you sure you want to delete this question? 
+  delete_question: Delete question
+  remove_confirm_quest: Are you sure you want to remove yourself from this question? 
+  remove_question: Remove from the question
+  delete_confirm_ans: Are you sure you want to delete your answer?
+  delete_ans_modal_title: Delete an answer
+  followme: Follow me
+  follow: Follow
+  vpaq: View Profile and Ask Question
+  unfollow: Unfollow
+  follower: follower
+  followers: followers
+  followings: following 
+  follow_denied: You can't follow yourself
+  search_q: Search questions
+  search_qt: Search questions asked to %{name}
+  search_ab: Search questions asked by %{name}
+  press_search: Press enter to search
+  sq_tagged: "Showing questions tagged with "
+  rm_tag: Remove this tag to see all questions
+  sq_keyword: "Showing questions having keyword(s) "
+  rm_keyword: Remove keyword(s)  to see all questions
+  answer: Answers
+  question: Questions
+  question_asked: question asked
+  question_asked_list: List of questions asked
+  questions_asked: questions asked
+  max_qcategory: You can select at most 2 relevant categories for this question
+  min_qcategory: Select at least 1 relevant category for this question
+  member_since: member since
+  view_more_q: View more such questions 
+  all: All
+  select_cat: Select up to 2 relevant categories for this question
+  embed_widget_error: "Askorty.com: 404 No data found. You have requested page %{url} does not exist or may have been removed. For any help, visit https://www.askorty.com/static/faq" 
+  browser_notice_html: Oouch.. You are using an older version of Internet Explorer (IE). <br /><br />Askorty.com works only on modern browsers such as Chrome, Firefox, Safari or IE version 10 and above
+  not_found_html: "<span class='xxxlarge-font'><i class='fa fa-chain-broken'></i> 404: File not found error</span><hr />We could not find the requested page, you are looking for. It may have been removed or doesn't exist in our system.<br/><br/><a href='/'>Checkout what is trending right now at Askorty!</a><br />Or<br /><a href='/users'>Find a public figure to ask a question now!</a>"
+  not_authorized_html: "<span class='xxxlarge-font'><i class='fa fa-lock'></i> 401: Unauthorized error</span><hr />You are not authorized to view this page.<br/><br/><a href='/'>Checkout what is trending right now at Askorty!</a><br />Or<br /><a href='/users'>Find a public figure to ask a question now!</a>"
+  not_processed_html: "<span class='xxxlarge-font'><i class='fa fa-chain-broken'></i> 422: Unable to process error</span><hr />This request couldn't be processed. Please re-try and if problem persists, then please <a href='/static/contact'>contact us here</a>.<br /><br /><a href='/'>Checkout what is trending right now at Askorty!</a><br />Or<br /><a href='/users'>Find a public figure to ask a question now!</a>"
+  internal_server_error_html: "<span class='xxxlarge-font'><i class='fa fa-chain-broken'></i> 500: Internal server error</span><hr />Oops... Something went wrong. Please re-try and if problem persists, then please <a href='/static/contact'>contact us here</a>.<br /><br /><a href='/'>Checkout what is trending right now at Askorty!</a><br />Or<br /><a href='/users'>Find a public figure to ask a question now!</a>"
+  post_answer: Post answer
+  comment_post_now: Post now
+  login_to_comment_html: Please <a href='#-' class="plz-login">login</a> to post a comment.
+  failed: Your upload has gone wrong. Please try again
+  uploading_done: Uploaded successfully
+  uploading: Uploading...
+  no_question_found: No data found!
+  ask_no_qa_found_html: "Ask now &raquo;"
+  no_more_content: No more content to load.
+  video_size_limit: Video length should not exceed %{duration} minutes. Max. file size is %{max}
+  upload_video: Upload video answer
+  current_optimization: Success! Your video has been uploaded. It's currently being optimized for viewers
+  optimization_notice: We will send you an e-mail when optimization has been completed. If successful, your answer will be available to everyone
+  text_answer: or answer in text only
+  return_video_upload: Return to video upload
+  max_amswer_chars: Answer goes here. Max. 1000 characters
+  submit_answer: Submit answer now
+  reco_video: Post a video! They win more hearts than text answers
+  allowed_type: "Only allowed file types are: "
+  allowed_size: Your file size must be lesser than %{max_amount}
+  retry_upload: Please try uploading again
+  not_allowed_to_answer: Stop right there! You're not authorized to post an answer to this question. Any uploads you make will be removed
+  answer_exists: You have already answered this question
+  generic_error: Your request could not be processed. Please try again. If the problem persists, get in touch with us
+  not_valid_request: Your request was invalid. Please try again.  If the problem persists, get in touch with us
+  invalid_error: "Invalid or inactive %{entity}"
+  answer_exceeds: Your answer exceeds the allowed 1000 characters limit
+  comment_exceeds: Your comment exceeds the allowed 500 characters limit
+  comment_missing: Comment can't be empty
+  answer_missing: Answer can't be empty
+  answer_text_submission: Success! Your answer has been submitted and is visible to everyone
+  exceed_length: Your video length exceeds the maximum limit of %{duration} minutes. Please upload a shorter version
+  plzwait: Please wait...
+  plzlogin: Please login to perform this action
+  not_authorized: You are not authorized to perform this action
+  no_del_answer: You cannot delete this question as it has already been answered
+  no_del_requestor: This question has %{cnt} or more votes and therefore cannot be deleted
+  profile_title: Profile summary
+  profile_detail: View full profile
+  askq_login_msg: Success! You logged in. Please close this popup and click the 'Ask me a question' button again
+  flag_login_msg: Success! You logged in. Please close this popup and click the 'Flag' button again
+  request_login_msg: Success! You logged in. Please close this popup and click the 'Vote button' again
+  follow_request_login_msg: Success! You logged in. Please close this popup and click the 'Follow button' again
+  like_login_msg: Success! You logged in. Please close this popup and click the 'Like' icon again
+  comment_login_msg: Success! You logged in. Please close this popup and click the 'Comment' icon again
+  error_title: Error
+  asker_cant_request: You cannot vote for your own question
+  already_requestor: You have already voted for this question
+  not_requestor: Whoa! You never voted for this question
+  already_liked: You have already liked this answer
+  never_liked: You have never liked this answer
+  embed_instruction: To embed this card in your website, simply copy the code below and paste it into the webpage HTML
+  report_content: Report this content
+  why_flag: Why are you flagging this content? (optional)
+  send_now: Send now
+  requesting: Voting...
+  cancelling: Cancelling...
+  follow_request: Following...
+  follow_cancel: Unfollowing...
+  already_followed: You have already followed this public figure
+  never_followed: You have never followed this celebrity
+  flag_success: Thanks for reporting this content. If required, we will take the necessary action ASAP
+  cdelete_failed: Comment deletion failed. Please try again
+  still_waiting_answer: Above question is still waiting to be answered by..
+  show_more: '... more'
+  select_pfigure: It's simple. Select a public figure and get Askorting!
+  num_ppl_req: Number of people voted for this question
+  num_ppl_follow: Number of people follow this public figure
+  num_ppl_follow_you: Number of people following you
+  no_question_asked_yet: "%{name} hasn't asked any question yet"
+  disabled_account_html: This account is currently disabled and is pending review. If you have any question, then please <a href="/static/contact">contact us</>.
+  upload_text: Upload file with dummy celebrity content
+  access_denied: "We found, you either didn't give us permission to access your e-mail address or it was not available in the response. Since e-mail address is a required field, so please re-try with granting us permission to access your e-mail address."
+  analytics:
+    profile_summary: Profile summary
+    back_to: back to statistics page
+    beginning: Since beginning
+    last: 'Last '
+    days: ' days'
+    today: 'Today'
+    any: 'Any'
+    male: Male
+    female: Female
+    yes: Yes
+    no: No
+    city: City
+    zipcode: Zipcode
+    date_desc: Date descending
+    date_asc: Date ascending
+    vote_desc: No. of votes descending
+    vote_asc: No. of votes ascending
+    lvote_desc: Last vote descending
+    lvote_asc: Last vote ascending
+    city_asc: City name ascending
+    city_desc: City name descending
+    sentiment_ptn: Sentiments positive to negetive
+    sentiment_ntp: Sentiments negetive to positive
+    q_came_from: 'Question came from:'
+    all_genders: male / female / unknown gender votes
+    last_voted_on: Last voted
+    asked_by: 'Asked by -'
+    on: 'on '
+    ago: ago
+    bkfrm: back from
+    seldate: Select a date
+    download: Download
+    aheading: Analytics
+    sheading: Statistics
+    participant: 'Participant:'
+    participants: 'Participants:'
+    positive: Positive
+    negative: Negative
+    hnegative: Highly negative
+    hneutral: Neutral
+    hpositive: Highly positive
+    date: Date
+    asker_gender: Asker gender
+    asker_state: Asker state
+    asker_city: Asker city
+    asker_zipcode: Asker zipcode
+    is_debate: Is a debate?
+    is_answered: Is answered?
+    vote_count: Vote count between
+    sentiment_btw: Sentiment between
+    sort_by: Sort by
+    filter_title: Filter the questions
+    count_unit: K
+    state: State
+    votes: votes
+    questions: questions
+    region: Region
+    quest: Question
+    sentiment: Sentiment
+    no_votes: No. of votes
+    last_voted: Last voted date 
+    asked_date: Date asked
+    q_by_male: '%{type} by male'
+    q_by_female: '%{type} by female'
+    q_by_other: '%{type} by other'
+    q_total: Total no. of %{type}
+    no_data: There's not enough data to draw this chart
+    by_male: No. of %{type} by male
+    by_female: No. of %{type} by female
+    by_other: No. of %{type} by unknown
+    by_total: Total No. of %{type}
+    vol_by: '%{type} volume by date'
+    subtitle: 'Number of %{type} asked by male, female and total number (includes unknown gender)'
+  controller:
+    registration: "registrations"
+  errors:
+    format: "%{message}"
+  mongoid:
+    errors:
+      models:
+        user:
+          blank: "%{attribute} can't be blank"
+          invalid: "%{attribute} is invalid"
+          taken: "%{attribute} is already taken"
+          too_short: "%{attribute} must be a minimum of %{count} characters"
+          too_long: "%{attribute} is too long (maximum is %{count} characters)"
+          confirmation: "%{attribute} doesn't match"
+  devise:
+    blank: "E-mail or username can't be blank."
+    blank_email: "E-mail can't be blank."
+    change_password: "Change password"
+    confirmation_link: "Didn't receive confirmation instructions?"
+    email_setting: Your change is saved successfully.
+    email_error: Your change is not saved successfully due to some unknown reason. Please re-try.
+    int_setting: Your change is saved successfully.
+    int_error: Your change is not saved successfully due to some unknown reason. Please re-try.
+    edit:
+      current_password: "Current password"
+      leave_blank: Leave blank if you don't want to change password
+      optional_field: Optional social information
+      password: "New password"
+      save: "Save"
+    email_confirmed: "Resend e-mail confirmation"
+    error:
+      invalid_email: "Invalid e-mail"
+      invalid_username: Username invalid! Special characters are not allowed, with the exception of '_'
+      reserve_word: "Selected username is either unavailable or not valid"
+    forgot: "Forgot?"
+    incorrect_email: "This e-mail address doesn't exist in our system."
+    incorrect_login: "This username or e-mail address doesn't exist in our system."
+    login: "Username or e-mail"
+    login_with_email: "or use e-mail"
+    new_user: "New user?"
+    password: "Password"
+    provider:
+      login:
+        fb: Login with Facebook
+        google: Login with Google
+      signup:
+        fb: Connect via Facebook
+        google: Connect via Google
+    rememberme: "rememberme"
+    remember_me: "Remember me"
+    reset:
+      confirmation: "Resend confirmation instructions"
+      confirmation_submit: "Resend instructions"
+      email_placeholder: "Type your e-mail"
+      password: "Reset password"
+      placeholder: "Type your e-mail or username"
+      submit: "Reset"
+      unlock: Resend unlock instructions
+      unlock_account: Unlock account
+    sent_password_mail: We have sent you an e-mail with instructions on how to reset your password
+    sent_confirmation_mail: "We have sent you an e-mail with account confirmation link."
+    sign_up_here: "Signup here"
+    signup:
+      email: "E-mail"
+      existing_user: "Existing user?"
+      login: "Login here"
+      name: "Full name"
+      signup: "Sign up"
+      terms: By signing up for an account below, or connect via Facebook or Google above, you confirm your understanding of and agreement with our 
+      login_terms: By connecting via Facebook or Google above, you confirm your understanding of and agreement with our 
+      username: "Username"
+      with: "Signup with"
+    profile_name: "Profile"
+    reset_password_instructions: "Reset password instructions have been sent to %{email}."
+    sign_in: "Sign in"
+    sign_out: "Sign out"
+    sign_up: "Sign up"
+  login: "Login"
+  trending: Trending
+  page_description: "You can ask any question to a public figure"
+  question_list_page_header: List of questions pending answers
+  myans_list: My Answers
+  max_selection_warning: You have reached the maximum number of celebrities
+  placeholder:
+    bio: Tell us a bit about yourself
+    celebrity_search: Search for a public figure
+    confirm_password: "Confirm password"
+    confirmation: "Password Confirmation"
+    country: "Country"
+    email: "E-mail"
+    facebook: "Facebook url"
+    google_oauth2: "Google url"
+    instagram: "Instagram url"
+    name: "Full name"
+    new_password: "New password"
+    message: Message
+    password: "Password"
+    select_country: "-- Select Country --"
+    send_message: Send message
+    suggest_celebrity:
+      name: Celebrity name
+      website: Facebook/Twitter/Web URL
+    twitter: "Twitter url"
+    username: "Username"
+    website: "Personal website url"
+  provider:
+    google: "google_oauth2"
+  registration:
+    categories_empty_html: Your profile is not complete yet. Please select your interest categories <a href=%{url}>here</a>
+    gnrl_stng: Profile settings
+    notif_stng: E-mail settings
+    interest_stng: Interests
+    max_categories: You can select up to %{max} categories only
+    edit_setting: Edit your profile settings
+    answer_notification: Send me e-mail, when a question, that I have asked or voted for, gets answered
+    vote_notification: Send me e-mail, when someone "vote in" the question asked by me
+    follow_notification: Send me email when someone follow me
+    notification_heading: Setup the e-mail notifications, you would like to receive from us
+    interest_heading: Choose question categories, you are interested to see in trending feed
+    receive_newsletter: Send me occasional newsletters and related e-mails
+    back: "Back"
+    banner_size: Banner image must be less than %{size} MB
+    celebrity: "I am a public figure"
+    change: "Change"
+    change_banner: Change banner
+    change_bimage: Change banner image. The recommeded size is 1200x300px. The bigger the better!
+    change_aimage: Change avatar image. Square shape image is recommended.
+    facebook: "facebook"
+    google: "google_oauth2"
+    instagram: "instagram"
+    twitter: "twitter"
+    merged_notice: "We have merged your account, as we found this e-mail address %{email} is associated with an existing account. If you want to make any further change, please edit the form below."
+    signup_notice: Welcome %{name}!! Change your username <i>%{username}</i> below or keep it.
+    profile_incomplete_html: Your profile information is not completed yet. Complete your profile below or <a href="/">do it next time</a>.
+  embed: Embed
+  embeddedcard:
+    asked: "asked - "
+    aby: "asked by - %{name}"
+    askq: Ask question at Askorty.com  
+    asked_same: This question has also been asked to..
+    check_answers: Checkout their answers
+    check_answer: "Checkout %{name}'s answer"
+    qto: Question to...
+    logo_title: Pitch your questions to celebrities and public figures at Askorty.com
+    reqanswer: Vote in
+    reqanswertitle: Vote for this question
+    pplreq: "%{num} voted for this question"
+    person: person
+  direct_link: Direct page link
+  save_changes: Save changes now. Otherwise you'll lose them if you navigate away from this page
+  suggest_celebrity: " Suggest a public figure"
+  about_celebrity: "Please provide some information:"
+  terms_action: "terms_and_condition"
+  countries: [ "Afghanistan", "Aland Islands", "Albania", "Algeria", "American Samoa", "Andorra", "Angola", "Anguilla", "Antarctica", "Antigua and Barbuda", "Argentina", "Armenia", "Aruba", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bermuda", "Bhutan", "Bolivia", "Bosnia and Herzegovina", "Botswana", "Bouvet Island", "Brazil", "British Antarctic Territory", "British Indian Ocean Territory", "British Virgin Islands", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Cambodia", "Cameroon", "Canada", "Canton and Enderbury Islands", "Cape Verde", "Cayman Islands", "Central African Republic", "Chad", "Chile", "China", "Christmas Island", "Cocos Islands", "Colombia", "Comoros", "Congo - Brazzaville", "Congo - Kinshasa", "Cook Islands", "Costa Rica", "Croatia", "Cuba", "Cyprus", "Czech Republic", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Dronning Maud Land", "East Germany", "East Timor", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Ethiopia", "European Union", "Falkland Islands", "Faroe Islands", "Fiji", "Finland", "France", "French Guiana", "French Polynesia", "French Southern Territories", "French Southern and Antarctic Territories", "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Gibraltar", "Greece", "Greenland", "Grenada", "Guadeloupe", "Guam", "Guatemala", "Guernsey", "Guinea", "Guinea-Bissau", "Guyana", "Haiti", "Heard Island and McDonald Islands", "Honduras", "Hong Kong", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Isle of Man", "Israel", "Italy", "Ivory Coast", "Jamaica", "Japan", "Jersey", "Johnston Island", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Kuwait", "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Macau", "Macedonia", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Martinique", "Mauritania", "Mauritius", "Mayotte", "Metropolitan France", "Mexico", "Micronesia", "Midway Islands", "Moldova", "Monaco", "Mongolia", "Montenegro", "Montserrat", "Morocco", "Mozambique", "Myanmar", "Namibia", "Nauru", "Nepal", "Netherlands", "Netherlands Antilles", "Neutral Zone", "New Caledonia", "New Zealand", "Nicaragua", "Niger", "Nigeria", "Niue", "Norfolk Island", "North Korea", "North Vietnam", "Northern Mariana Islands", "Norway", "Oman", "Outlying Oceania", "Pacific Islands Trust Territory", "Pakistan", "Palau", "Palestinian Territory", "Panama", "Panama Canal Zone", "Papua New Guinea", "Paraguay", "People's Democratic Republic of Yemen", "Peru", "Philippines", "Pitcairn", "Poland", "Portugal", "Puerto Rico", "Qatar", "Reunion", "Romania", "Russia", "Rwanda", "Saint Barthélemy", "Saint Helena", "Saint Kitts and Nevis", "Saint Lucia", "Saint Martin", "Saint Pierre and Miquelon", "Saint Vincent and the Grenadines", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Serbia and Montenegro", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Georgia and the South Sandwich Islands", "South Korea", "Spain", "Sri Lanka", "Sudan", "Suriname", "Svalbard and Jan Mayen", "Swaziland", "Sweden", "Switzerland", "Syria", "Taiwan", "Tajikistan", "Tanzania", "Thailand", "Togo", "Tokelau", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Turks and Caicos Islands", "Tuvalu", "U.S. Miscellaneous Pacific Islands", "U.S. Virgin Islands", "Uganda", "Ukraine", "Union of Soviet Socialist Republics", "United Arab Emirates", "United Kingdom", "United States", "United States Minor Outlying Islands", "Unknown or Invalid Region", "Uruguay", "Uzbekistan", "Vanuatu", "Vatican", "Venezuela", "Vietnam", "Wake Island", "Wallis and Futuna", "Western Sahara", "Yemen", "Zambia", "Zimbabwe" ]
+  close_menu_button: Close menu button
+  not_visible: Not visible to anyone
+  profile_view_public: Check public view of your profile
+  remove_me: Remove me from this question
+  celebrity_list_page_title: "List of celebrities or public figures to ask question from"
+  celebrity_list_page_description: "You can ask question from any of these listed celebrities or public figure"
+  celebrity_list_page_keywords: "celebrities, public-figure, list"
+
+  contact_page_title: 'Contact Askorty.com'
+  contact_page_description: 'Contact Askorty.com for any query or help'
+  contact_page_keywords: 'contact, help, askorty, support'
+
+  default_page_description: "At Askorty.com, you can ask any question to a celebrity or public figure anytime and they will answer by posting videos"
+  default_page_keywords: "Ask, Question, Celebrity, Public Figures, QnA, Video Velfies, Video Selfies, Vlogging, Video Blogging"
+  default_page_title: "Ask a question to a celebrity or public figure"
+
+  faqs_page_title: 'Askorty.com FAQs'
+  faqs_page_description: 'Frequently asked questions at Askorty.com'
+  faqs_page_keywords: 'faqs, help, askorty'
+
+  home_page_title: "Ask a question to a celebrity or public figure"
+  home_page_keywords: "Ask, Question, Celebrity, Public Figures, QnA, Video Velfies, Video Selfies, Vlogging, Video Blogging"
+  home_page_description: "At Askorty.com, you can ask any question to a celebrity or public figure anytime and they will answer by posting videos"
+
+  login_page_title: 'Login to Askorty.com'
+  login_page_description: 'Login to your Askorty.com account to access all features'
+  login_page_keywords: 'login, signin, my-account'
+
+  privacy_page_title: 'Privacy policy of Askorty.com'
+  privacy_page_description: 'Privacy policy of Askorty.com'
+  privacy_page_keywords: 'privacy, policy, askorty'
+
+  signup_page_title: 'Signup to Askorty.com'
+  signup_page_description: 'Signup or register to open Askorty.com account'
+  signup_page_keywords: 'signup, register, registration'
+
+  tnc_page_title: 'Terms of service to use Askorty.com'
+  tnc_page_description: 'Terms of service to use Askorty.com'
+  tnc_page_keywords: 'tnc, terms, conditions, tos, askorty'
+
+  detail_page_title: 'Ask %{name} a question at Askorty.com'
+  detail_page_description: 'Ask %{name} a question and view video answer'
+  detail_page_keywords: '%{name}, question, video, velfies, video selfies, Vlogging, askorty'
+
+  single_all_answer_card_page_title: '%{celebrity_name_list_comma_separated} answer to - %{question_text}'
+  single_all_answer_card_page_description: '%{celebrity_name_list_comma_separated} posted answer of the question - %{question_text}'
+  single_all_answer_card_page_keywords: '%{celebrity_name_list_comma_separated},video,answer'
+
+  single_answer_card_page_title: '%{celebrity_name} answered- %{question_text}'
+  single_answer_card_page_description: '%{celebrity_name} posted answer of the question - %{question_text} at Askorty.com'
+  single_answer_card_page_keywords: '%{celebrity_name},askorty,video,answer'
+
+  single_question_card_page_title: 'Question to - %{celebrity_name_list_comma_separated} : %{question_text}'
+  single_question_card_page_description: 'A question has been asked to %{celebrity_name_list_comma_separated} - %{question_text}'
+  single_question_card_page_keywords: '%{celebrity_name_list_comma_separated},video,answer,question,ask'
+
+  celeb_all_qcards_page_title: 'List of un-answered questions those have been asked to %{cname}'
+  celeb_all_qcards_page_description: '%{cname} has yet to answer all these questions asked by many users at Askorty.com'
+  celeb_all_qcards_page_keywords: '%{cname},questions,video,vlog,video selfies,ask'
+
+  celeb_all_acards_page_title: 'List of answers given by %{cname}'
+  celeb_all_acards_page_description: '%{cname} has posted answer all these questions those were asked by many users at Askorty.com'
+  celeb_all_acards_page_keywords: '%{cname},answers,video,vlog,video selfies'
+
+  about_page_title: 'A brief about Askorty.com'
+  about_page_description: 'Learn about Askorty.com'
+
+  myanswer_page_title: 'My answers'
+  myquestion_page_title: 'My questions'
+  myrequested_page_title: 'My votes'
+  qtoanswer_page_title: 'List of questions yet to be answered by me'
+  editprofile_page_title: 'Edit my profile'
+
+  editnotification_settings_page_title: 'Edit notifcation settings and more'
+
+  two_more: Two more public figure have posted answer to this question.
+  one_more: One more public figure has posted answer to this question.
+  view_all_html: "View all answers &raquo;"
+
+  mailer:
+    contact:
+      contact_html: 'Name: %{name} <br /> Email: %{email} <br /> Message: %{message} <br /> IP address: %{ipaddress} <br />'
+      contact_text: |+
+        Name: %{name}
+        Email: %{email}
+        Message: %{message}
+        IP address: %{ipaddress}
+      contact_subject: Contact email from Askorty.com
+
+    email_footer_links_html: 'You are receiving member message notifications e-mails, because you are a user at Askorty.com.<br />For any question or support, please visit <a href="https://www.askorty.com/static/faqs" style="color:#A9A9A9;text-decoration:none;">FAQs</a> or you can contact us by <a href="https://www.askorty.com/static/contact" style="color:#A9A9A9;text-decoration:none;">clicking here</a>'
+    email_footer_links_text: |+
+      You are receiving member message notifications e-mails, because you are a user at Askorty.com
+      For any question or support, please visit https://www.askorty.com/static/faqs or you can contact us at https://www.askorty.com/static/contact
+
+    follow:
+      follow_html: '%{celeb_name},<br/><br/>You have a new follower on Askorty.<br/><br /><a href= %{follower_profile_path}> <img src=%{follower_img}></img> <br />%{follower_name}<br /> %{follower_blurb}</a><br><br>'
+      follow_text: |+
+        %{celeb_name}, You have a new follower on Askorty.
+        %{follower_name}
+        %{follower_blurb}
+
+        "View %{follower_name}'s profile at %{follower_profile_path}"
+      follow_subject: '%{follower_name} is now following you on Askorty!'
+
+    vote:
+      vote_html: 'Hello %{asker_name}, <br/><br/> %{voter_name} has voted to your question <a href="%{qurl}" style="border=0"> %{qtext} </a> <br/><br/>'
+      vote_text: |+
+        Hello %{asker_name},
+        %{voter_name} has voted to your question %{qtext} %{qurl}.
+      vote_subject: '%{voter_name} has voted for your question %{qtext}'
+
+    footer_disclaimer_html: '© %{year} Askorty.com | %{address}'
+    footer_disclaimer_text: '© %{year} Askorty.com | %{address}'
+
+    askorty_team_html: 'Askorty team'
+    askorty_team_text: |+
+      Askorty team
+
+    email_logo_alternate_text: 'Askorty.com'
+    answer:
+      text_html: 'Hello %{name},<br/><br />Good news!! %{answerer} has posted answer of the following question:<br/><br /><a href="%{qurl}" style="border=0"> %{qtext} </a><br/><br/><a href="%{qurl}" style="border=0">%{answer}</a><br/><br/>'
+      text_text: |+
+        Hello %{name},
+        
+        Good news!! %{answerer} has posted answer of the following question:
+
+        %{qtext}
+
+        %{answer}
+
+        Please visit the webpage %{qurl} to view the complete answer.
+
+      text_subject: '%{answerer} has posted answer of %{qtext}'
+
+      video_html: 'Hello %{name},<br/><br />Good news!! %{answerer} has posted answer of the <a href="%{qurl}" style="border=0">%{qtext}</a><br /><br /><a href="%{qurl}" style="border=0"><img src="%{thumb_url}" /></a><br /><br />'
+      video_text: |+
+        Hello %{name},
+        
+        Good news!! %{answerer} has posted answer of the following question:
+        
+        %{qtext}
+
+        Please visit the webpage %{qurl} to view the answer.
+
+      video_subject: "%{answerer} has posted answer of %{qtext}"
+    transcoding:
+      failed_html: 'Hello %{name},<br/><br />Unfortunately, your uploaded answer video for question <a href="%{qurl}" style="text-decoration:none;">%{qtext}</a> has failed during optimization. %{reason}.<br /><br />'
+      failed_text: |+
+        Hello %{name},
+        
+        Unfortunately, your uploaded answer video for question %{qtext} at %{qurl} has failed during optimization. 
+        
+        %{reason}. If problem persists, then please contact us.
+
+      failed_subject: Your uploaded answer video failed during optimization
+
+      success_html: 'Hello %{name},<br/><br />Thank you for posting an answer video of question <a href="%{qurl}" style="border=0;">%{qtext}</a><br /><br /><a href="%{qurl}" style="border=0"><img src="%{thumb_url}" /></a><br><br>Your answer video is transcoded successfully and now visible to the world. You can click above link to view it now.<br/><br/>'
+      success_text: |+
+        Hello %{name},
+        
+        Thank you for posting an answer video of question.
+
+        %{qtext}
+
+        Your answer video is transcoded successfully and now visible to the world. Please visit the webpage %{qurl} to view the answer.
+
+      success_subject: Your answer video is posted successfully about - %{qtext}
+    confirmation:
+      confirm_html: 'Hello %{name},<br/><br />Welcome to <a href=%{site_url}>%{site_url}</a>. In order to access all features of the site, you need to confirm your e-mail address by clicking the link below.<br/><br/><a href=%{reset_link}>%{reset_link}</a><br/><br/>'
+
+      confirm_text: |+
+        Hello %{name},
+        
+        Welcome to %{site_url}. In order to access all features of the site, you need to confirm your e-mail address by visiting the following webpage:
+
+        %{reset_link}
+
+      confirm_subject: Welcome to Askorty.com Please confirm your account
+    password:
+      password_html: 'Hello %{name},<br/><br />As per your recent request to reset your password, please click the link below to do so <br/><br/><a href=%{reset_link}>%{reset_link}</a> <br/><br/>If you think, you have not requested to reset your password, then you can simply ignore this e-mail.<br/><br/>'
+      password_text: |+
+        Hello %{name},
+        
+        As per your recent request to reset your password, please visit the following webpage to do so
+
+        %{reset_link}
+
+        If you think, you have not requested to reset your password, then you can simply ignore this e-mail.
+
+      password_subject: Askorty.com password reset instruction
+    unlock:
+      unlock_html: 'Your Askorty.com account is locked due to an excessive number of unsuccessful sign in attempts.<br/><br/>Please click the link below to unlock your account.<br/><br/><a href=%{unlock_link}>%{unlock_link}</a>  <br/><br/>'
+      unlock_text: |+
+        Hello %{name},
+        
+        Your Askorty.com account is locked due to an excessive number of unsuccessful sign in attempts.
+
+        Please visit the following webpage to unlock your account.
+
+        %{unlock_link}
+
+      unlock_subject: Askorty.com account unlocking instruction

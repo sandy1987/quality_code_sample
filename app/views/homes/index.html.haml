@@ -1,0 +1,130 @@
+- if params[:only_cards] == "true"
+  = render 'cards/holder', data: @data, only_cards: true, title: nil, show_options: false, show_header: false, dont_include_ajax_modal: true, include_other_js: false
+
+- else
+  .row#home-banner
+    .col-xs-12.home-header-box
+      .home-featured-banner.col-centered
+        -if @featured.any?
+          %a#fclink{href: @featured[0][:asrc]}
+            %img.avatar-lsmall#fcimage{src: @featured[0][:src]}
+            #fcname
+              =@featured[0][:name]
+        -else
+          %br
+          %br
+          %br
+
+      %span.xlarge-font
+        =t(:whom_ask_today_1)
+      %br
+      %span.default-font
+        =t(:whom_ask_today_2)
+      .question-ask-button-in-banner.col-centered.main-ask-button
+        %i.fa.fa-microphone
+        =t(:ask_now)
+  = render 'common/filter_option'
+
+  .row
+    .col-xs-12.trending-selection.col-centered
+      - if flash[:alert].present?
+        = render "/common/generic_error", errors: [ flash[:alert] ]
+      - elsif flash[:notice]
+        = render "/common/generic_info", info: [ flash[:notice] ]
+
+  .card-container
+    = render 'cards/holder', data: @data, only_cards: true, title: nil, show_options: false, show_header: false, dont_include_ajax_modal: true, include_other_js: true
+  = render "common/ajax_modal"
+  = render "common/ajax_modal_profile"
+
+  :javascript
+    var src_array = #{@featured.map {|e| e[:src]}}
+    var name_array = #{@featured.map {|e| e[:name]}}
+    var href_array = #{@featured.map {|e| e[:asrc]}}
+    var current_index = 1; //coz first one is already loaded
+    var delay_in_ms = 2800;
+
+    if(src_array.length > 0) {
+      //Need to remove first featured image
+      setTimeout(function() {
+        $(".home-featured-banner").addClass("animated fadeOutDown");
+      }, delay_in_ms-500);
+
+      function show_featured_image() {
+        
+        $("#fcimage").attr("src", src_array[current_index]);
+        $("#fclink").attr("href", href_array[current_index]);
+        $("#fcname").html(name_array[current_index]);
+        $(".home-featured-banner").addClass("animated rollIn");
+
+        $('.home-featured-banner').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){  
+          $(".home-featured-banner").removeClass("animated rollIn");
+          $(".home-featured-banner").removeClass("animated fadeOutDown");
+        });
+        //Remove now
+        setTimeout(function() {
+          $(".home-featured-banner").addClass("animated fadeOutDown");
+        }, delay_in_ms-500);
+
+        if(current_index == src_array.length-1) {
+          current_index = 0;
+        } else {
+          current_index++;
+        }
+      }
+    }
+
+    $(document).on('ready page:load', function () {
+      
+      var collapsed = false;
+      $(window).scroll(function(){
+        if ($(window).scrollTop() > ( $("#home-banner").outerHeight() + $("#home-nav").outerHeight() - 70 )) {
+          if(collapsed) {return;}
+          collapsed = true;
+          $(".question-ask-button-in-nav").slideDown().addClass('animated bounceInUp');
+        } else {
+          collapsed = false;
+          $(".question-ask-button-in-nav").slideUp();
+        }
+      });
+      setInterval(show_featured_image, delay_in_ms);
+
+      setTimeout(function() {
+        $(".info-alert-row").slideUp();
+      }, 6000);
+
+    });
+
+    //Algolia Search
+    $(document).on('ready page:load', function () {
+      
+      var client = algoliasearch("#{Rails.application.secrets.algolia["application_id"]}", "#{Rails.application.secrets.algolia["public_search_key"]}");
+      var index = client.initIndex('Question');
+
+      $('#typeahead-algolia').typeahead(
+        {
+          hint: false,
+          highlight: true,
+          minLength: 1
+        }, 
+        {
+          source: index.ttAdapter({hitsPerPage: 10}),
+          displayKey: 'text'
+        }
+      ).on('keyup', this, function (event) {
+        if (event.keyCode == 13) {
+          $('#typeahead-algolia').typeahead('close');
+          window.location.href = "/?keyword="+encodeURIComponent($('#typeahead-algolia').val());
+        }
+      });
+
+      $('.typeahead').bind('typeahead:select', function(ev, suggestion) {
+        window.location.href = suggestion.card_url;
+      });
+
+      $(document).on("click", ".searchspan-big",function(event) {
+        window.location.href = "/?keyword="+encodeURIComponent($('#typeahead-algolia').val());
+      });
+
+    });
+

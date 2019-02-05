@@ -1,0 +1,19 @@
+:javascript
+  $('.nstSlider').nstSlider({
+    "crossable_handles": false,
+    "left_grip_selector": ".leftGrip",
+    "right_grip_selector": ".rightGrip",
+    "value_bar_selector": ".bar",
+    "value_changed_callback": function(cause, leftValue, rightValue) {
+        var from = $(this).parent().find('.leftLabel').text(leftValue);
+        var to = $(this).parent().find('.rightLabel').text(rightValue);
+        if (from.hasClass('vcount')) {
+          $('#vcount_from').val(from.html());
+          $('#vcount_to').val(to.html());
+        }
+        else if (from.hasClass('scount')) {
+          $('#sentiment_from').val(from.html());
+          $('#sentiment_to').val(to.html());
+        }
+    }
+  });

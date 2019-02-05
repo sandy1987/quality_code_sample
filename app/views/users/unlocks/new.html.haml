@@ -1,0 +1,19 @@
+.clear
+.col-lg-5.col-md-6.col-sm-7.col-xs-12.col-centered.devise-box
+  .header.h3
+    =t('devise.reset.unlock') 
+  = form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post, remote: true }) do |f|
+
+    - if resource.errors.any?
+      %br
+      = render "/common/error_message", target: resource
+    - elsif flash[:success]
+      %br
+      = render "/common/generic_success", success: [ flash[:success] ]
+
+    .fields
+      .login_field
+        = f.email_field :email, class: 'input-lg form-control', placeholder: t('devise.reset.email_placeholder')
+    .action-button
+      %button.large-button.full-width#login-button
+        = t('devise.reset.unlock')

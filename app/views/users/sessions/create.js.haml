@@ -1,0 +1,9 @@
+- if @msg_type == 'success'
+  $('.main_header').html( "#{ escape_javascript render 'common/loggedin_header' }" );
+
+  - if ( @modal && params[:msg].present? )
+    $('.modal-body.ajax-modal-body').html( $( "<div class='alert alert-success'/>" ).html("#{params[:msg]}" ) );
+  - elsif @modal
+    window.location.reload();
+  - else
+    window.location = "#{@path}";

@@ -1,0 +1,204 @@
+.clear
+#dialog
+%br
+%br
+.row.profile-box.col-centered
+  - if empty_categories? && flash[:notice] && flash[:notice].length > 0
+    = render "/common/generic_info", info: [ flash[:notice] ]
+
+= form_for(resource, as: resource_name, url: update_user_registration_path(resource.username), method: :put) do |f|
+  .row.profile-box.col-centered
+    %ul.nav.nav-tabs
+      %li.filter_cls{role: 'presentation'}
+        &nbsp;
+      %li.filter_cls.active{role: 'presentation'}
+        = t('registration.gnrl_stng')
+      %li.filter_cls{role: 'presentation'}
+        %a{href: "/#{params[:username]}/nsettings"}
+          = t('registration.notif_stng')
+      %li.filter_cls{role: 'presentation'}
+        %a{href: "/#{params[:username]}/isettings"}
+          = t('registration.interest_stng')
+  %br
+  %br
+  .row.profile-box.col-centered
+    .notification-msg
+      .alert.alert-danger.hide#error_msg
+      .alert.alert-info.hide
+      .alert.alert-success.hide
+
+    - if !empty_categories? && flash[:notice] && flash[:notice].length > 0
+      = render "/common/generic_info", info: [ flash[:notice] ]
+
+  .row.profile-box.col-centered
+    .col-lg-12.col-md-12.col-sm-12.col-xs-12.text-center
+      .header
+        .xlarge-font
+          = resource.name.titleize
+          %a{href: "/#{resource.username}"}
+            %i.fa.fa-user.site-text-color.default-font.gray-fa{'data-toggle': "tooltip", 'data-placement': "right", title: "#{t(:profile_view_public)}"}
+        .default-font
+          = resource.email
+          %i.fa.fa-lock.gray-fa{'data-toggle': "tooltip", 'data-placement': "right", title: "#{t(:not_visible)}"}
+  %br
+  // Mandatory fields
+  .row.profile-box.col-centered
+    .col-lg-12.col-md-12.col-sm-12.col-xs-12
+      = f.text_field :blurb, class: 'input-lg form-control', placeholder: t('placeholder.bio'), maxlength: 150, value: field_value('blurb', f)
+  .row.profile-box.col-centered
+    .col-lg-6.col-md-6.col-sm-6.col-xs-12
+      = f.text_field :name, class: 'input-lg form-control', placeholder: t('placeholder.name'), value: field_value('name', f), maxlength: 40
+    .col-lg-6.col-md-6.col-sm-6.col-xs-12
+      = f.text_field :username, class: 'input-lg form-control', placeholder: t('placeholder.username'), maxlength: 16, value: field_value('username', f)
+
+  // If user has signedup via email
+  - if current_user.encrypted_password.present?
+    .row.profile-box.col-centered
+      .col-lg-6.col-md-6.col-sm-6.col-xs-12
+        = f.password_field :password, autocomplete: "off", class: 'input-lg form-control', placeholder: t('devise.edit.password'), maxlength: 24
+        .dimmed
+          = t 'devise.edit.leave_blank'
+      .col-lg-6.col-md-6.col-sm-6.col-xs-12
+        = f.password_field :current_password, autocomplete: "off", class: 'input-lg form-control', placeholder: t('devise.edit.current_password'), maxlength: 24
+
+  // Optional fields for regular user
+  - unless User.is_celebrity? resource
+    %br
+    .row.profile-box.col-centered
+      .col-lg-6.col-md-6.col-sm-6.col-xs-12
+        %a.more_field{ href: "#-"}
+          = t 'devise.edit.optional_field'
+          %span
+            %i.navigate-icon.fa.fa-caret-left
+
+  // Mandatory fields for celebrity user
+  .optional_fields
+    // Social site urls
+    .row.profile-box.col-centered
+      - %w( website instagram ).each do |provider|
+        .col-lg-6.col-md-6.col-sm-6.col-xs-12{ class: error_field?(resource, provider) }
+          = text_field_tag "[user][url][#{provider}]", url_field_value("#{provider}") , placeholder: t("placeholder.#{provider}"), class: 'input-lg form-control'
+    .row.profile-box.col-centered
+      - %w( facebook twitter).each do |provider|
+        .col-lg-6.col-md-6.col-sm-6.col-xs-12{ class: error_field?(resource, provider) }
+          = text_field_tag "[user][url][#{provider}]", url_field_value("#{provider}") , placeholder: t("placeholder.#{provider}"), class: 'input-lg form-control'
+
+  - if show_celebrity_checkbox?
+    // country & celebrity checkbox
+    .row.profile-box.col-centered
+      .col-lg-6.col-md-6.col-sm-6.col-xs-12
+        = f.select :country, options_for_select( t(:countries), field_value('country', f) ), { include_blank: t('placeholder.select_country') }, class: 'input-lg form-control', placeholder: t('placeholder.country')
+      .col-lg-6.col-md-6.col-sm-6.col-xs-12
+        %input#celebrity{type: "checkbox",name: 'celebrity', checked: celebrity_checked?(resource) }
+          %label{for: "celebrity"}
+            = t('registration.celebrity')
+  %br
+  = f.hidden_field :country
+  .row.profile-box.col-centered
+    .col-lg-12.col-md-12.col-sm-12.col-xs-12.genderbox
+      =t(:ima)
+      %label
+        %input{type: "radio", name: "user[gender]", value: "male", checked: resource.gender == 'male' }
+        %i.fa.fa-male
+      %label
+        %input{type: "radio", name: "user[gender]", value: "female", checked: resource.gender == 'female'}
+        %i.fa.fa-female
+      %label
+        %input{type: "radio", name: "user[gender]", value: "unknown", checked: resource.gender == 'unknown'}
+        =t(:other_gender)
+      &nbsp;
+      %i.fa.fa-lock.gray-fa{'data-toggle': "tooltip", 'data-placement': "right", title: "#{t(:not_visible)}"}
+  
+  - if User.is_celebrity? resource
+    .row.profile-box.col-centered.categories
+      .col-lg-12.col-md-12.col-sm-12.col-xs-12
+        %h3
+          =t :sel_cat
+        - @cat_list = Category.where(lang: 'en').order_by(name: 'asc')
+        - @my_cat_list = current_user.categories || []
+        -@cat_list.each do |i|
+          .icheckbox.inline-blk
+            %label
+              %input{type: 'checkbox', value: i.id.to_s, name: 'user[categories][]', checked: "#{@my_cat_list.include?i.id.to_s}".to_bool}
+                &nbsp;
+                =i.name
+
+
+  %br
+  .row.profile-box.col-centered
+    .col-lg-12.col-md-12.col-sm-12.col-xs-12
+      .action-button
+        %button.large-button.full-width#submit-update-profile
+          = t 'devise.edit.save'
+%br
+%br
+
+:javascript
+  $(document).on('ready page:load', function () {
+    if (!#{User.is_celebrity? resource }) {
+      $('.optional_fields').hide();
+    }
+  });
+
+  $(document).on('click', '.more_field', function(){
+    $('.optional_fields').slideToggle();("slow");
+    $( '.navigate-icon' ).toggleClass( "fa-caret-left" );
+    $( '.navigate-icon' ).toggleClass( "fa-caret-down" );
+  });
+
+  $(document).on('click','#submit-update-profile',function(e) {
+    toggle_loading_button("submit-update-profile");
+    $('.edit-profile-form-progress').removeClass('hide');
+    url = $(this).parents('form').attr('action');
+    empty_all_messages();
+    data = $('#edit_user').serialize();
+    ajaxRequest(url, "PUT", data)
+    .done(function(response) {
+      toggle_loading_button("submit-update-profile");
+      $('.edit-profile-form-progress').addClass('hide');
+      response_message(response);
+    });
+    e.preventDefault();
+  });
+
+  function response_message(response) {
+    $('.alert-'+response.type).removeClass('hide');
+    $('.notification-msg .alert-' + response.type).html( $('<ul>') );
+    if ( $.isArray(response.message) ) {
+      $.each( response.message, function( index, msg ) {        
+        $('.notification-msg .alert-' + response.type + ' ul').append(
+          $('<li>').append(response.message[index])
+        );
+      });
+    }else {
+      $('.notification-msg .alert-' + response.type + ' ul').append(
+        $('<li>').append(response.message)
+      );
+    }
+    // High-light error fields
+    var providers = #{ %w(facebook twitter website) }
+    $('.field_with_errors').removeClass('field_with_errors');
+    $('label').removeClass('text-error');
+    if (response.error_fields && response.error_fields.length > 0){
+      $.each( response.error_fields, function( index,field ) {
+        $('.'+response.error_fields[0]).find('input')
+
+        if ( $.inArray(field, providers) >= 0 ){
+          id = "#_user_url_" + field;
+        }
+        else {
+          id = "#user_" + field;
+        }
+        if ( field == 'categories') {
+          $.each( $('.'+field).find('input'), function(index, input ){
+            if ($(input).is(":checked")) {
+              $(input).parent('label').addClass('text-error');
+            }
+          })
+        } else {
+          $(id).parent().addClass('field_with_errors');
+        }
+      });
+    }
+  }
+

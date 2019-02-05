@@ -1,0 +1,209 @@
+.modal-body-internal#askMeQuestion
+  .text-center#celebrity-image
+    %img.avatar-small{src: @user.avatar_image(:preview)}
+    .default-font
+      = @user.name
+  .alert.alert-success#success.hide
+  .alert.alert-danger#error.hide
+  .question-text-body
+    .qn-body
+      = form_for(:question, url: "/#{@user.username}/questions", html: { method: :post, remote: true }) do |f|
+        - if current_user.present?
+          = f.hidden_field :asked_by_user, value: current_user.id.to_s
+        = f.hidden_field :asked_to, value: @user.id.to_s, name: "question[asked_to][]"
+        .field
+          = f.text_area :text, rows: 3, placeholder: t('ask_me_question.question_placeholder'), maxlength: 120, class: 'form-control large-font'
+        .pull-right.character-counter-wrapper
+          #ccount
+            = t 'ask_me_question.max_length' 
+          = t 'ask_me_question.char_left'
+        .clear
+        .selection-holder.text-center.ahide
+          #thumb-holder
+          #warning-max-selection.dimmed.ahide
+            =t(:max_selection_warning)
+        
+        .dimmed#action-text
+          %i.fa.fa-bullhorn 
+          &nbsp;
+          = t 'ask_me_question.ask_to_others'
+          %span.anchor#add-more-celebrityAdd
+            = t 'ask_me_question.add_more'
+        
+        .celebrity-search
+          %input.input-md.form-control#celebrity-search-field#celebrity_search_to_ask_quest{placeholder: t('placeholder.celebrity_search')}
+          %i.search-icon-in-field.fa.fa-search
+          .search-result.celeb
+
+          .pull-right.anchor#hide-celebrity-search
+            = t 'ask_me_question.hide_list'
+
+        .categories_selection
+          .cheader
+            =t(:select_cat)
+          .options
+            -@cat_list.each do |i|
+              -nm = i.name.gsub(' ', '').downcase
+              .icheckbox.inline-blk
+                %label
+                  %input.qcategory{type: 'checkbox', value: i.id.to_s, name: 'question[qcategories][]'}
+                    &nbsp;
+                    =i.name
+      .text-center
+        %button.large-button#asknow_question
+          = t 'ask_me_question.ask_now'
+        .reagree-text
+
+:javascript
+  
+  // Unbind all events those are bounded on document level and get invoked in modal
+  $("#ajaxModal").on('hide.bs.modal', function (e) {
+    $(document).off("click", ".selectable");
+    $(document).off("click", ".fcheck");
+  })
+  // ends
+
+  $( "#add-more-celebrityAdd" ).on("click", function() {
+    if ( $( ".celebrity-search" ).is( ":hidden" ) ) {
+      $( "#action-text" ).slideUp( "slow" );
+      $( ".celebrity-search" ).slideDown( "slow" );
+    } else {
+      hideSearch();
+    }
+  });
+
+  $( "#hide-celebrity-search" ).on("click", function() {
+    hideSearch();
+    $( "#action-text" ).slideDown( "slow" );
+  });
+
+  $(document).on("click",".selectable", function(e) {
+    var elem = $("label[for='"+e.target.id+"']")[0];
+    var bg = elem.style["backgroundImage"];
+    bg = bg.replace('url(','').replace(')','');
+    bg = bg.replace("&quot;", '');
+    if ($(".selection-holder").not(':visible')) {
+      $(".selection-holder").slideDown("slow");
+    }
+    
+    if(e.target.checked) {
+      $("#thumb-holder").append("<div class='keep-inline-selection selected-celeb' data-id='"+e.target.value+"'><img class='avatar-xsmall selected-image-in-box' id='img_"+e.target.value+"' src="+bg+" /><br />"+e.target.dataset.name+"<br /><i class='fa fa-times fcheck'></i></div>");
+      $("#img_"+e.target.value).addClass('animated bounceIn');
+       hideSearch();
+    } 
+
+    if ($(".selected-image-in-box").length == 2) {
+      $("#warning-max-selection").slideDown("slow", function() {
+        $("#warning-max-selection").addClass('animated shake');
+      });
+      
+    } else {
+      $( "#action-text" ).slideDown( "slow" );
+    }
+   
+  });
+
+  $(document).on("click",".fcheck",function(e){
+    $(e.target.parentElement).remove();
+    if ($(".selected-image-in-box").length == 0) {
+      $(".selection-holder").slideUp("slow");
+    } else if ($(".selected-image-in-box").length < 2) {
+      $("#warning-max-selection").slideUp("slow");
+    }
+    $( "#action-text" ).slideDown( "slow" );
+  });
+
+  $("#asknow_question").on("click", function(e){
+    toggle_loading_button("asknow_question")
+    update_asked_to_ids();
+    data = $(this).parents('.question-text-body').find('form').serialize();
+    ajaxRequest( "/#{"#{@user.username}/questions"}", 'POST', data )
+    .done(function(response) {
+      response_notice(response, '#askMeQuestion');
+      toggle_loading_button("asknow_question");
+    }); 
+  });
+
+  function update_asked_to_ids() {
+    $('.removable-id').remove();
+    selected_celebs = $('#thumb-holder .selected-celeb');
+    for(var i=0; i<selected_celebs.length; i++) {
+      id = $(selected_celebs[i]).data('id');
+      $('form').append('<input type="hidden" class="removable-id" name="question[asked_to][]" value='+ id + '/>');
+    }
+  }
+
+  function hideSearch() {
+    $("#celebrity_search_to_ask_quest").val('');
+    $(".celebrity-search").slideUp("slow");
+    $('.search-result.celeb' ).html('');
+  }
+
+  function response_notice(response, id) {
+    $( id + ' #error').addClass('hide').html('');
+    $( id + ' #success').addClass('hide').html('');
+    $( id + ' .field').removeClass('field_with_errors');
+    $.each( $('.qcategory'), function(index, input ){
+      $(input).parent('label').removeClass('text-error');
+    })
+
+    if (response.error != null) {
+      $( id + ' #error').removeClass('hide').html(response.error);
+      if (response.field == undefined) {
+        $( id + ' .field').addClass('field_with_errors');
+      } else if (response.field.category == 0 ) {
+        // add error in all fields
+        $.each( $('.qcategory'), function(index, input ){
+          $(input).parent('label').addClass('text-error');
+        })
+      } else {
+        // add error in selected fields
+        $.each( $('.qcategory'), function(index, input ){
+          if ($(input).is(":checked")) {
+            $(input).parent('label').addClass('text-error');
+          }
+        })
+      }
+      
+    } else if (response.success != null){
+      $( id + ' .qn-body').hide();
+      $( '#celebrity-image').slideUp("slow");
+      $( id + ' #success').removeClass('hide').html(response.success).addClass('animated bounceIn');
+      $(".card-container").prepend(response.dom);
+      $("#cel_ask_now_button").get(0).scrollIntoView();
+      $(".no-qa-found").slideUp();
+      setupBlocks();
+    }
+  }
+
+  $("#question_text").on("keyup", function(e){
+    left = 120 - $('#question_text').val().length;
+    if (left <= 10 && left >= 5) {
+      $('.character-counter-wrapper').css({backgroundColor: "#ffbf00"}).removeClass("animated shake");
+    } else if (left < 5) {
+      $('.character-counter-wrapper').css({backgroundColor: "#FA7F8D"}).addClass("animated shake");
+    } else {
+      $('.character-counter-wrapper').css({backgroundColor: "transparent"}).removeClass("animated shake");
+    }
+    $('#ccount').html(left);
+  });
+  
+  var asked_to = []
+  asked_to.push( $('#question_asked_to').val() );
+
+  $("#celebrity_search_to_ask_quest").on("keyup", function(e){
+    get_selected_celebrity_id();
+    text = $('#celebrity_search_to_ask_quest').val();
+    if (text.length > 0) {
+      ajaxRequest( "#{search_celebrity_users_path}", 'POST', { search_by: text, asked_to: asked_to } );
+    } else {
+      $('.search-result.celeb').html('');
+    }
+  });
+
+  function get_selected_celebrity_id() { 
+    id = $('#thumb-holder .selected-celeb').data('id')
+    if ( id != undefined && asked_to.indexOf(id) < 0){
+      asked_to.push( id ); 
+    }
+  }

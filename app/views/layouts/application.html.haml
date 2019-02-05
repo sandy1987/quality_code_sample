@@ -1,0 +1,44 @@
+!!!
+%html
+  %head
+    %title
+      = "#{yield(:page_title).empty? ? t(:default_page_title) : yield(:page_title)}"
+    %meta{ name: 'description', content: "#{yield(:page_description).empty? ? t(:default_page_description) : yield(:page_description)}" }
+    %meta{ name: 'keywords', content: "#{yield(:page_keywords).empty? ? t(:default_page_keywords) : yield(:page_keywords)}" }
+    %meta{ name: 'viewport', content: "width=device-width, initial-scale=1.0" }
+
+    = render "common/favicon"
+
+    -if ( controller.controller_name == "users" && controller.action_name == "view_profile") 
+      %meta{ property: "fb:app_id",           content: "618251851648975" }
+      %meta{ property: "og:title",            content: "#{yield(:page_title).empty? ? t(:default_page_title) : yield(:page_title)}" }
+      %meta{ property: "og:url",              content: "#{request.original_url}" }
+      %meta{ property: "og:description",      content: "#{yield(:page_description).empty? ? t(:default_page_description) : yield(:page_description)}" }
+      %meta{ property: "og:site_name",        content: "Askorty.com" }
+      %meta{ property: "article:publisher",   content: "https://www.facebook.com/askorty" }
+      %meta{ property: "twitter:card",        content: "summary" }
+      %meta{ property: "twitter:title",       content: "#{yield(:page_title).empty? ? t(:default_page_title) : yield(:page_title)}" }
+      %meta{ property: "twitter:description", content: "#{yield(:page_description).empty? ? t(:default_page_description).truncate(200) : yield(:page_description).truncate(200)}" }
+      -@social_hash.each do |k, v|
+        %meta{ property: "#{k}", content: "#{v}" }
+
+    = include_gon
+    = stylesheet_link_tag     "application", media: "all"
+    = javascript_include_tag  "application",  media: "all"
+    = csrf_meta_tags
+
+    = stylesheet_link_tag     "//fonts.googleapis.com/css?family=Lato:300", media: "all"
+    = stylesheet_link_tag     "//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css", media: "all"
+    = javascript_include_tag  "jquery.fileupload" if controller.controller_name == "answers" && controller.action_name == "new"
+    = javascript_include_tag  "drop" if ( (controller.controller_name == "cards" && controller.action_name != "show") || (controller.controller_name == "homes") || (controller.controller_name == "users"))
+
+  %body
+    = render "common/google_tag_manager"
+    .main_header
+      = user_signed_in? ? render("common/loggedin_header") : render("common/unloggedin_header")
+    .clear
+    .askorty-body
+      = yield
+
+    = render "common/organization_info"
+    = render "common/footer"

@@ -1,0 +1,16 @@
+!!! 5
+%html
+  %head
+  %body
+    %table{cellpadding: "0", cellspacing: "0", style: "width:95%;text-align:center;font-family:Arial,sans-serif;"}
+      %tr
+        %td{style: "background-color:#DF4F60;padding:20px;text-align:center;font-family:Arial,sans-serif;"}
+          %a{href: "#{APP_CONFIG[:app_url]}", target: "_blank"}
+            %img{alt: t('mailer.email_logo_alternate_text'), src: "#{APP_CONFIG[:s3_url_prefix]}/#{APP_CONFIG[:s3_static_content_bucket]}/logo.png", style: "border:0px;width:150px;"}
+      %tr
+        %td{style: "background-color:#F5F5F5;padding:80px 60px;text-align:left;color:#777777;font-size:14px;font-family:Arial,sans-serif;"}
+          = yield
+          =t('mailer.askorty_team_html')
+      %tr
+        %td{style: "color:#C1C1C1;padding:12px;font-size:11px;text-align:center;background-color:#EAEAEA;font-family:Arial,sans-serif;"}
+          = render "common/mail_footer"

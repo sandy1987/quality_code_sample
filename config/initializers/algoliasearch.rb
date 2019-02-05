@@ -1,0 +1,1 @@
+AlgoliaSearch.configuration = { application_id: Rails.application.secrets.algolia["application_id"], api_key: Rails.application.secrets.algolia["admin_api_key"] }

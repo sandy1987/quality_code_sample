@@ -1,0 +1,75 @@
+- cookies[:page] = nil
+.clear
+.col-lg-5.col-md-6.col-sm-7.col-xs-12.col-centered.devise-box
+  .social-login
+    %a{ href: "/auth/facebook" }
+      .sites.fb.full-width
+        %i.fa.fa-facebook
+        = t 'devise.provider.signup.fb'
+    %a{ href: "/auth/google_oauth2" }
+      .sites.google.full-width
+        %i.fa.fa-google
+        = t 'devise.provider.signup.google'
+
+  .terms-and-condition
+    = t 'devise.signup.terms' 
+    %a.ajax-modal-opener{"data-href": "/static/terms_and_conditions?modal=true", "data-modal-title": t(:tncon), href: "#-"}= t(:tncon)
+    =t(:and)
+    %a.ajax-modal-opener{"data-href": "/static/privacy_policy?modal=true", "data-modal-title": t(:prpol), href: "#-"}= t(:prpol)
+  .or-email
+    %h2
+      %span.dimmed
+        = t 'devise.login_with_email'
+
+  - if resource.errors.any?
+    = render "/common/error_message", target: resource
+  - elsif flash[:error]
+    = render "/common/generic_error", errors: [flash[:error]]
+  - elsif flash[:notice]
+    = render "/common/generic_info", info: [ flash[:notice] ]
+    .pull-left
+      %span.anchor{ "data-toggle": "modal", "data-target": "#resentConfirmation", href: "#-"}
+        = t('devise.email_confirmed')
+
+  - unless flash[:notice]
+    = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+      .fields
+        = f.text_field :name, autofocus: true, class: 'form-control input-lg', placeholder: t('devise.signup.name'), maxlength: 40
+        = f.text_field :username, autofocus: true, class: 'form-control input-lg', placeholder: t('devise.signup.username'), maxlength: 16
+        = f.text_field :email, autofocus: true, class: 'form-control input-lg', placeholder: t('devise.signup.email')
+        = f.password_field :password, autocomplete: "off", class: 'form-control input-lg', placeholder: t('devise.password'), maxlength: 24
+
+        - if show_celebrity_checkbox?
+          .celebrity-check
+            %input#celebrity{ type: "checkbox", name: 'celebrity', checked: ( params[:user].present? ? ( params[:celebrity] ? true : false ) : false ) }
+              %label{for: 'celebrity'}
+                = t('registration.celebrity')
+
+      .action-button
+        %button.large-button.full-width
+          = t 'devise.signup.signup'
+      .footer
+        .pull-left
+          = t 'devise.signup.existing_user' 
+          %span.anchor
+            = link_to t('devise.signup.login'), new_user_session_path
+
+= render 'common/ajax_modal'
+= render "common/sent_confirmation_mail"
+
+:javascript
+
+  $('.resend_confirmation').on('click',function() {
+    toggle_loading_button("resent_confirmation");
+    data = $(this).parents('form').serialize();
+    url = $(this).parents('#resentConfirmation').data('url');
+    ajaxRequest( url, 'POST', data )
+    .done(function(response) {
+      response_notice(response, '#resentConfirmation');
+      toggle_loading_button("resent_confirmation");
+    });
+  });
+
+  $('#resentConfirmation').on('show.bs.modal', function (e) {
+    $("#resentConfirmation #user_email").val("#{cookies[:email]}");
+  });

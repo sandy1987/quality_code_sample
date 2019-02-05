@@ -1,0 +1,327 @@
+- time = Time.now.to_s
+
+- unless @data.empty?
+  - chart_id = %w(geolocation zipcode).include?(params[:by]) ? t('analytics.state') : t('analytics.date')
+  - chart_type = params[:entity] == 'votes' ? t('analytics.votes') : t('analytics.questions')
+
+  - if ( params[:by] == 'date' || params[:by].blank? )
+    - column_chart = [[t('analytics.date'), t('analytics.q_by_male', type: chart_type.capitalize), t('analytics.q_by_female', type: chart_type.capitalize), t('analytics.q_total', type: chart_type)]].concat(column_chart_data)
+
+    :javascript
+      //COLUMN CHART
+      google.load("visualization", "1.1", {packages:["bar"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable(#{column_chart});
+
+        var options = {
+          width: 1050,
+          backgroundColor: '#FFFFFF',
+          chart: {
+            title: "#{t('analytics.vol_by', type: chart_type.capitalize)}",
+            subtitle: "#{t('analytics.subtitle', type: chart_type)}"
+          },
+          legend: { position: 'top' },
+          fontName: 'Lato, Arial, sans-serif',
+          titleTextStyle: { color: '#4A4A4A', fontSize: 26 },
+          tooltip: {
+            textStyle: { fontName: 'Lato, Arial, sans-serif' }
+          }
+        };
+
+        var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+        chart.draw(data, google.charts.Bar.convertOptions(options));
+      }
+
+  - if %w(geolocation zipcode).include?(params[:by])
+    - pie_chart = pie_chart_data chart_type, params[:by]
+
+    :javascript
+      //PIE CHART
+      google.load("visualization", "1.1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawPieChart);
+      function drawPieChart() {
+        var data = google.visualization.arrayToDataTable(#{pie_chart});
+
+        var options = {
+          backgroundColor: '#FFFFFF',
+          is3D: true,
+          legend: {
+            textStyle: {
+              bold: false,
+              color: '#4A4A4A',
+              fontSize: 12
+            }
+          },
+          chartArea: {
+            top: 35,
+            height: 450,
+            width: 900
+          }
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+        chart.draw(data, options);
+      }
+
+  - if ( params[:by] == 'geolocation' )
+    - geo_chart = geo_chart_data chart_type
+
+    :javascript
+      //GEO CHART
+      google.load("visualization", "1.1", {packages:["geochart"]});
+      google.setOnLoadCallback(drawRegionsMap);
+
+      function drawRegionsMap() {
+        var geo_data = #{geo_chart}
+        var data = google.visualization.arrayToDataTable(geo_data);
+
+        var options = {
+          backgroundColor: '#FFFFFF',
+          region: "US", 
+          resolution: "provinces",
+          width: 1050
+        };
+
+        var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+
+        chart.draw(data, options);
+      }
+
+  :javascript
+    //TBALE CHART
+    google.load("visualization", "1.1", {packages:["table"]});
+    google.setOnLoadCallback(drawTable);
+
+    function drawTable() {
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', "#{chart_id}");
+      if (#{params[:by] == 'zipcode'}) {
+        data.addColumn('string', "#{t('analytics.city')}");
+        data.addColumn('string', "#{t('analytics.zipcode')}");
+      }
+      data.addColumn('string', "#{t('analytics.by_male', type: chart_type)}");
+      data.addColumn('string', "#{t('analytics.by_female', type: chart_type)}");
+      data.addColumn('string', "#{t('analytics.by_other', type: chart_type)}");
+      data.addColumn('string', "#{t('analytics.by_total', type: chart_type)}");
+      data.addRows(#{table_chart_data});
+
+      var options = {
+        allowHtml: true,
+        showRowNumber: false, 
+        width: '100%', 
+        height: '100%',
+        sortColumn: 0,
+        cssClassNames: {
+          tableCell: 'gtable-cell',
+          headerRow: 'gtable-header',
+          oddTableRow: 'gshaded-row',
+          headerCell: 'gheader-cell',
+          hoverTableRow: 'ghovertable-row'
+        }
+      }
+      var table = new google.visualization.Table(document.getElementById('table_div'));
+
+      table.draw(data, options);
+    }
+
+.anayltics-wrapper.col-centered
+  .row
+    .tab-selector
+      .atab-select.active-tab
+        %i.fa.fa-bar-chart
+        =t('analytics.aheading')
+      .atab-select
+        %a{href: "/analytics/questions"}
+          %i.fa.fa-database
+          =t('analytics.sheading')
+
+  .row.analytics-header-box
+    .col-xs-3
+      .data-box
+        .legend
+          = t(:question)
+        .bullet
+          %a{href: '/analytics/questions'}
+            = number_to_human(@data_count[:questions], :format => '%n%u', :units => { :thousand => t('analytics.count_unit') })
+    .col-xs-3
+      .data-box
+        .legend
+          = t(:answer)
+        .bullet
+          = number_to_human(@data_count[:answers], :format => '%n%u', :units => { :thousand => t('analytics.count_unit') })
+    .col-xs-3
+      .data-box
+        .legend
+          = t(:others)
+        .bullet
+          = number_to_human(@data_count[:votes], :format => '%n%u', :units => { :thousand => t('analytics.count_unit') })
+    .col-xs-3
+      .data-box
+        .legend
+          = t(:avrg_sentiment)
+        .sentiment-box.col-centered.sentiment-gradient
+          .edge.pull-left
+            0
+          .edge.pull-right
+            4
+        - sentiment = @data_count[:question_sentiment]
+        - if sentiment.to_i > 0
+          .sentiment-pointer.col-centered
+            .medium-font{ style: "padding-left: #{(230/4)*sentiment}px;"}
+              %i.fa.fa-sort-asc
+            .default-font{ style: "margin-top: 14px; margin-left: -10px; padding-left: #{(230/4)*sentiment}px;"}
+              = number_with_precision(sentiment , precision: 1)
+        -else
+          = t(:not_available)
+    .row.second-line
+      .col-xs-3
+        .data-box
+          .legend
+            = t(:question_region)
+          .bullet
+            = @data_count[:questions_region].titleize rescue t(:not_available)
+      .col-xs-3
+        .data-box
+          .legend
+            = t(:voting_region)
+          .bullet
+            = ( @data_count[:voting_region].present? ? @data_count[:voting_region].titleize : t(:not_available) ) rescue t(:not_available)
+      .col-xs-3
+        .data-box
+          .legend
+            = t(:active_gender)
+          .bullet
+            = @data_count[:active_gender].capitalize rescue t(:not_available)
+      .col-xs-3.right-align
+        ="0 = #{t('analytics.hnegative')}"
+        %br/
+        ="2 = #{t('analytics.hneutral')}"
+        %br/
+        ="4 = #{t('analytics.hpositive')}"
+    - if params[:by]=='zipcode'
+      .row.third-line
+        .col-xs-3
+          .data-box
+            .legend
+              = t(:question_city)
+            .bullet
+              = @data_count[:questions_city].titleize rescue t(:not_available)
+        .col-xs-3
+          .data-box
+            .legend
+              = t(:voting_city)
+            .bullet
+              = ( @data_count[:voting_city].present? ? @data_count[:voting_city].titleize : t(:not_available) ) rescue t(:not_available)
+        .col-xs-3
+          .data-box
+            .legend
+              = t(:voting_zipcode)
+            .bullet
+              = @data_count[:voting_zipcode].titleize rescue t(:not_available)
+
+  .analytics-detail-box.col-centered
+    .row
+      .col-xs-12
+        %ul.nav.nav-tabs
+          - active = active_class?('date','questions')
+          %li{role: 'presentation', class: "filter_cls #{active}" }
+            - if active
+              = t(:question_by_date)
+            -else
+              %a{href: build_filter_qstring(by: 'date',entity: 'questions')}
+                = t(:question_by_date)
+          - active = active_class?('geolocation','questions')
+          %li{role: 'presentation', class: "filter_cls #{active}" }
+            - if active
+              = t(:question_by_geolocation)
+            - else
+              %a{href: build_filter_qstring(by: 'geolocation',entity: 'questions')}
+                = t(:question_by_geolocation)
+          - active = active_class?('zipcode','questions')
+          %li{role: 'presentation', class: "filter_cls #{active}" }
+            - if active
+              = t(:question_by_zipcode)
+            - else
+              %a{href: build_filter_qstring(by: 'zipcode',entity: 'questions')}
+                = t(:question_by_zipcode)
+          - active = active_class?('date','votes')
+          %li{role: 'presentation', class: "filter_cls #{active}" }
+            - if active
+              = t(:vote_by_date)
+            - else
+              %a{href: build_filter_qstring(by: 'date',entity: 'votes')}
+                = t(:vote_by_date)
+          - active = active_class?('geolocation','votes')
+          %li{role: 'presentation', class: "filter_cls #{active}" }
+            - if active
+              = t(:vote_by_geolocation)
+            - else
+              %a{href: build_filter_qstring(by: 'geolocation',entity: 'votes')}
+                = t(:vote_by_geolocation)
+          - active = active_class?('zipcode','votes')
+          %li{role: 'presentation', class: "filter_cls #{active}" }
+            - if active
+              = t(:vote_by_zipcode)
+            - else
+              %a{href: build_filter_qstring(by: 'zipcode',entity: 'votes')}
+                = t(:vote_by_zipcode)
+    .row
+      = form_tag(analytics_path, method: :get, enforce_utf8: false)
+      .col-xs-12
+        .inline-blk
+          = hidden_field_tag 'entity', params[:entity] || 'questions'
+          = hidden_field_tag 'by', params[:by] || 'date'
+          = select_tag "offset", options_for_select(@days, params[:offset] || 30), class: "form-control date-ranger"
+        .inline-blk
+          &nbsp;
+          = t('analytics.bkfrm')
+          &nbsp;
+        .inline-blk.dateholder
+          %i.fa.fa-calendar
+          &nbsp;
+          -dt = params[:to_date] ? params[:to_date] : DateTime.parse(time).strftime("%b %e, %Y")
+          %input.datepicker{placeholder: t('analytics.seldate'), type: 'date', 'data-value': "#{dt}", name: 'to_date'}
+        .inline-blk
+          %button.default-button.filterbutton#filter_button
+            %i.fa.fa-filter
+            = t(:filter)
+
+  - if @data.present?
+    - if ( params[:by] == 'date' || params[:by].blank? )
+      .row.chart-box
+        .col-xs-12
+          #columnchart_material.gchart
+
+    - if params[:by] == 'geolocation'
+      .row.geo-box 
+        .col-xs-12
+          %span.chart-title 
+            = t('vol_geolocation', type: chart_type.capitalize)
+          #regions_div.gchart
+
+    - if %w(geolocation zipcode).include?(params[:by])
+      .row.pie-box
+        .col-xs-12 
+          %span.chart-title 
+            = t("vol_#{params[:by]}", type: chart_type.capitalize)
+          #piechart.gchart
+            = t('vol_as_chart', type: chart_type.capitalize)
+
+    .row.table-box 
+      .col-xs-12 
+        %span.chart-title 
+          = t('vol_as_table', type: chart_type.capitalize)
+        #table_div
+  - else
+    .row
+      .col-xs-12 
+        .alert.alert-danger
+          = t 'analytics.no_data'
+
+:javascript
+  $('.datepicker').pickadate({
+    format: 'mmm d, yyyy',
+    max: new Date("#{DateTime.parse(time).strftime("%Y,%m,%d")}")
+  });

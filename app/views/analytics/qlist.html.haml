@@ -1,0 +1,155 @@
+:css
+  .gheader-cell {
+    cursor: auto !important;
+  }
+  .gtable-header th:first-child {
+    width: 20%;
+  }
+
+- unless @questions.blank?
+
+  :javascript
+    //TBALE CHART
+    google.load("visualization", "1.1", {packages:["table"]});
+    google.setOnLoadCallback(drawTable);
+
+    function drawTable() {
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', "#{t('analytics.quest')}");
+      data.addColumn('string', "#{t('analytics.sentiment')}");
+      data.addColumn('string', "#{t('analytics.no_votes')}");
+      data.addColumn('string', "#{t('analytics.asker_state')}");
+      data.addColumn('string', "#{t('analytics.asker_city')}");
+      data.addColumn('string', "#{t('analytics.asker_zipcode')}");
+      data.addColumn('string', "#{t('analytics.asker_gender')}");
+      data.addColumn('string', "#{t('analytics.last_voted')}");
+      data.addColumn('string', "#{t('analytics.asked_date')}");
+      data.addRows(#{@table_chart});
+
+      var options = {
+        allowHtml: true,
+        showRowNumber: false,
+        sort: 'disable',
+        width: '100%', 
+        height: '100%',
+        sortColumn: 0,
+        cssClassNames: {
+          tableCell: 'gtable-cell',
+          headerRow: 'gtable-header',
+          oddTableRow: 'gshaded-row',
+          headerCell: 'gheader-cell',
+          hoverTableRow: 'ghovertable-row'
+        }
+      }
+      var table = new google.visualization.Table(document.getElementById('questions_table_div'));
+
+      table.draw(data, options);
+    }
+
+.anayltics-wrapper.col-centered
+  .row
+    .tab-selector
+      .atab-select
+        %a{href: "/analytics"}
+          %i.fa.fa-bar-chart
+          =t('analytics.aheading')
+      .atab-select.active-tab
+        %i.fa.fa-database
+        =t('analytics.sheading')
+  .row.analytics-header-box
+    .row
+      .col-xs-12
+        %span.large-font
+          = t 'analytics.filter_title'
+
+    = form_tag(analytics_questions_path, method: :get, enforce_utf8: false)
+    .row.filter-row
+      .col-xs-2
+        = hidden_field_tag 'vcount_from'
+        = hidden_field_tag 'vcount_to'
+        = hidden_field_tag 'sentiment_from'
+        = hidden_field_tag 'sentiment_to'
+
+        = t 'analytics.date'
+        = select_tag "offset", options_for_select(select_options('date'), (params[:offset] || 'infinite' )), class: "form-control date-ranger"
+
+      .col-xs-2
+        = t 'analytics.asker_gender'
+        = select_tag "gender", options_for_select(select_options('asker_gender'), (params[:gender] || nil)), class: "form-control date-ranger"
+
+      .col-xs-2
+        = t 'analytics.is_answered'
+        = select_tag "answered", options_for_select(select_options('is_answered'), (params[:answered] || nil)), class: "form-control date-ranger"
+
+      .col-xs-2
+        = t 'analytics.is_debate'
+        = select_tag "debate", options_for_select(select_options('is_debate'), (params[:debate] || nil)), class: "form-control date-ranger"
+      .col-xs-2
+        - max_votes = params[:vcount_to] =~ /\A\d+\z/ ? params[:vcount_to].to_i : 10000
+        = t 'analytics.vote_count'
+        .nstSlider.nstSlider-bg{"data-cur_max": "#{max_votes}", "data-cur_min": "#{params[:vcount_from].to_i || 0}", "data-range_max": "10000", "data-range_min": "0"}
+          .bar
+          .leftGrip
+          .rightGrip
+        .leftLabel.pull-left.vcount
+        .rightLabel.pull-right.vcount
+
+      .col-xs-2
+        - max_sentiment = params[:sentiment_to] =~ /\A\d+\z/ ? params[:sentiment_to].to_i : 4
+        = t 'analytics.sentiment_btw'
+        .nstSlider.sentiment-gradient{"data-cur_max": "#{max_sentiment}", "data-cur_min": "#{params[:sentiment_from].to_i || 0}", "data-range_max": "4", "data-range_min": "0"}
+          .bar
+          .leftGrip
+          .rightGrip
+        .leftLabel.pull-left.scount
+        .rightLabel.pull-right.scount
+    .row.filter-row
+      .col-xs-2
+        = t 'analytics.asker_state'
+        = select_tag "state", options_for_select(select_options('asker_state'), (params[:state] || nil)), class: "form-control date-ranger"
+
+      .col-xs-2
+        = t 'analytics.asker_city'
+        = text_field_tag "city", (params[:city] || nil), placeholder: t('analytics.city'), class: "form-control date-ranger asker_city"
+
+      .col-xs-4
+        = t 'analytics.sort_by'
+        = select_tag "sort_by", options_for_select(select_options('sort_by'), (params[:sort_by] || 'date_desc')), class: "form-control date-ranger"
+
+      .col-xs-2
+        .fk
+          &nbsp;
+        %button.default-button.full-width
+          %i.fa.fa-filter
+          = t(:filter)
+
+      .col-xs-2
+      .col-xs-2.right-align
+        ="0 = #{t('analytics.hnegative')}"
+        %br/
+        ="2 = #{t('analytics.hneutral')}"
+        %br/
+        ="4 = #{t('analytics.hpositive')}"
+  .analytics-detail-box.col-centered
+    - if @questions.present?
+      .row
+        .pull-right
+          / %a{href: ''}
+          /   %i.fa.fa-download
+          /   =t('analytics.download')
+
+      .row.table-box
+        .col-xs-12
+          #questions_table_div
+
+        .col-xs-12.table_paginate
+          = will_paginate @questions, page_links: false
+
+    - else
+      .row
+        .col-xs-12
+          .alert.alert-danger
+            = t 'analytics.no_data'
+
+= render "common_js"
+= render "common/ajax_modal_profile"

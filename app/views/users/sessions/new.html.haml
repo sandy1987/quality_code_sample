@@ -1,0 +1,162 @@
+- cookies[:page] = 'login'
+.clear
+.col-lg-5.col-md-6.col-sm-7.col-xs-12.col-centered.devise-box
+  .social-login
+    %a{ href: "/auth/facebook" }
+      .sites.fb.full-width{ class: "#{params[:modal].present? ? 'social-provider' : ''}" }
+        %i.fa.fa-facebook
+        = t 'devise.provider.signup.fb'
+    %a{ href: "/auth/google_oauth2" }
+      .sites.google.full-width{ class: "#{params[:modal].present? ? 'social-provider' : ''}"}
+        %i.fa.fa-google
+        = t 'devise.provider.signup.google'
+
+  .terms-and-condition
+    = t 'devise.signup.login_terms' 
+    %a.ajax-modal-opener{"data-href": "/static/terms_and_conditions?modal=true", "data-modal-title": t(:tncon), href: '#-' }= t(:tncon)
+    =t(:and)
+    %a.ajax-modal-opener{"data-href": "/static/privacy_policy?modal=true", "data-modal-title": t(:prpol), href: "#-"}= t(:prpol)
+
+
+  .or-email
+    %h2
+      %span.dimmed
+        = t 'devise.login_with_email'
+
+  = form_for(resource, as: resource_name, url: session_path(resource_name), html: { method: :post })  do |f|
+
+    .notification-msg
+      .alert.alert-danger.hide
+      .alert.alert-info.hide
+      .alert.alert-success.hide
+
+    - if flash[:error]
+      = render "/common/generic_error", errors: [ flash[:error] ]  
+    - elsif flash[:notice]
+      = render "/common/generic_info", info: [ flash[:notice] ]
+    - elsif flash[:success]
+      = render "/common/generic_success", success: [ flash[:success] ]
+
+    .fields
+      .login_field
+        = f.text_field :login, { class: 'input-lg form-control', placeholder: t('devise.login'), value: ( params[:user][:login] rescue nil || cookies.permanent[:login_detail] ) }
+      .login_field
+        = f.password_field :password, autocomplete: "off", maxlength: 24, class: 'input-lg form-control', placeholder: t('devise.password'), value: ( params[:user][:password] rescue nil || cookies.permanent[:password_detail] )
+      .in-text-field.anchor{"type": "button", "data-toggle": "modal", "data-target": "#resetPassword", href: "#-"}
+        = t 'devise.forgot'
+    .action-button
+      %button.large-button.full-width#login-button
+        = t 'login'
+    .footer
+      = f.check_box :remember_me, { id: 'rememberme', checked: user_remembered }
+      %label{for: t('devise.rememberme')}
+        = t 'devise.remember_me'
+      .pull-right
+        = t 'devise.new_user' 
+        %span.anchor
+          = link_to t('devise.sign_up_here'), new_registration_path(resource_name)
+      %br
+      = hidden_field_tag :modal, params[:modal]
+      = hidden_field_tag :msg, params[:msg]
+      .pull-right
+        %span.anchor{ "data-toggle": "modal", "data-target": "#resentConfirmation", href: "#-"}
+          = t('devise.email_confirmed')
+
+= render "common/forgot_password"
+= render "common/sent_confirmation_mail"
+= render 'common/ajax_modal'
+= render "common/unlock_account"
+
+:javascript
+
+  $('#login-button').click(function(e){
+    toggle_loading_button("login-button");
+    data =  $(this).parents('form').serialize();
+    url = "#{user_session_path}";
+    empty_all_messages();
+    ajaxRequest( url, 'POST', data )
+    .done(function(response) {
+      response_message(response);
+    })
+    .fail(function(response) {
+      $(response).attr('message',response.responseText);
+      $(response).attr('type','danger');
+      response_message(response);     
+    })
+    e.preventDefault();
+  });
+  
+  function response_message(response) {
+    if (response.type == "success") {
+      if (#{ params[:modal].present? && params[:msg].present? }) {
+        $('.modal-body.ajax-modal-body').html( 
+        $( "<div class='alert alert-success'/>" ).html( "#{params[:msg]}" ) 
+        );
+      }else if (#{ params[:modal].present? }) {
+        window.location.reload();
+      }else {
+        window.location = response.path
+      }
+    } else {
+      toggle_loading_button("login-button");
+      $('.notification-msg .alert-'+response.type).removeClass('hide');
+      $('.notification-msg .alert-' + response.type).html( $('<ul>') );
+      if ( $.isArray(response.message) ) {
+        $.each( response.message, function( index, msg ) {
+          $('.notification-msg .alert-' + response.type + ' ul').append(
+            $('<li>').append(response.message[index])
+          );
+        });
+      }else {
+        $('.notification-msg .alert-' + response.type + ' ul').append(
+          $('<li>').append(response.message)
+        );
+      }
+    }
+    // High-light error fields
+    $('.field_with_errors').removeClass('field_with_errors');
+    if (response.error_fields && response.error_fields.length > 0){
+      $.each( response.error_fields, function( index,field ) {
+        id = "#user_" + field;
+        $(id).parent().addClass('field_with_errors');
+      });
+    }
+  }
+
+  $('.social-provider').on('click', function() {
+    document.cookie = 'path = ' + window.location.pathname
+    return true
+  });
+
+  $('.reset_password').on('click', function() {
+    toggle_loading_button("reset_password");
+    data = $(this).parents('form').serialize();
+    url = $(this).parents('#resetPassword').data('url');
+    ajaxRequest( url, 'POST', data )
+    .done(function(response) {
+      response_notice(response, '#resetPassword');
+      toggle_loading_button("reset_password");
+    });
+  });
+
+  $('.resend_confirmation').on('click',function() {
+    toggle_loading_button("resent_confirmation");
+    data = $(this).parents('form').serialize();
+    url = $(this).parents('#resentConfirmation').data('url');
+    ajaxRequest( url, 'POST', data )
+    .done(function(response) {
+      response_notice(response, '#resentConfirmation');
+      toggle_loading_button("resent_confirmation");
+    });
+  });
+
+  $('.unlock_account').on('click', function() {
+    toggle_loading_button("unlock_account");
+    data = $(this).parents('form').serialize();
+    url = $(this).parents('#unlockAccount').data('url');
+    ajaxRequest( url, 'POST', data )
+    .done(function(response) {
+      response_notice(response, '#unlockAccount');
+      toggle_loading_button("unlock_account");
+    });
+  });
